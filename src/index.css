@@ -1,0 +1,251 @@
+/* DO NOT CHANGE */
+@import "tailwindcss";
+@import "tw-animate-css";
+@custom-variant dark (&:is(.dark *));
+
+/* DO NOT CHANGE */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* CHANGE VALUES FOR THEME */
+:root {
+  /* Modern theme: warm paper neutrals, soft ink type, near-black actions,
+     one refined teal accent, hairline borders, no heavy shadows. */
+  --radius: 0.7rem;
+  --background: oklch(0.984 0.003 95);
+  --foreground: oklch(0.207 0.013 262);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.207 0.013 262);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.207 0.013 262);
+  --primary: oklch(0.224 0.014 262);
+  --primary-foreground: oklch(0.985 0.003 95);
+  --secondary: oklch(0.961 0.004 95);
+  --secondary-foreground: oklch(0.26 0.014 262);
+  --muted: oklch(0.961 0.004 95);
+  --muted-foreground: oklch(0.524 0.014 262);
+  --accent: oklch(0.953 0.005 95);
+  --accent-foreground: oklch(0.26 0.014 262);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.914 0.005 95);
+  --input: oklch(0.914 0.005 95);
+  --ring: oklch(0.66 0.09 205);
+  --chart-1: oklch(0.55 0.1 205);
+  --chart-2: oklch(0.72 0.14 70);
+  --chart-3: oklch(0.58 0.2 25);
+  --chart-4: oklch(0.58 0.09 240);
+  --chart-5: oklch(0.44 0.016 262);
+  --sidebar: oklch(0.976 0.004 95);
+  --sidebar-foreground: oklch(0.207 0.013 262);
+  --sidebar-primary: oklch(0.224 0.014 262);
+  --sidebar-primary-foreground: oklch(0.985 0.003 95);
+  --sidebar-accent: oklch(0.953 0.005 95);
+  --sidebar-accent-foreground: oklch(0.26 0.014 262);
+  --sidebar-border: oklch(0.914 0.005 95);
+  --sidebar-ring: oklch(0.66 0.09 205);
+
+  /* Refined accent (signal teal) — interactive accents, live states, links. */
+  --signal: oklch(0.55 0.1 205);
+  --signal-strong: oklch(0.47 0.11 205);
+  --signal-soft: color-mix(in oklch, var(--signal) 10%, transparent);
+  --signal-line: color-mix(in oklch, var(--signal) 30%, transparent);
+  --signal-text: oklch(0.44 0.09 205);
+
+  /* Severity palette for the watchlist. */
+  --sev-critical: oklch(0.55 0.21 26);
+  --sev-high: oklch(0.66 0.16 45);
+  --sev-medium: oklch(0.74 0.14 72);
+  --sev-low: oklch(0.58 0.09 235);
+  --sev-critical-soft: color-mix(in oklch, var(--sev-critical) 10%, transparent);
+  --sev-critical-line: color-mix(in oklch, var(--sev-critical) 32%, transparent);
+  --sev-high-soft: color-mix(in oklch, var(--sev-high) 12%, transparent);
+  --sev-high-line: color-mix(in oklch, var(--sev-high) 32%, transparent);
+  --sev-medium-soft: color-mix(in oklch, var(--sev-medium) 14%, transparent);
+  --sev-medium-line: color-mix(in oklch, var(--sev-medium) 34%, transparent);
+  --sev-low-soft: color-mix(in oklch, var(--sev-low) 11%, transparent);
+  --sev-low-line: color-mix(in oklch, var(--sev-low) 30%, transparent);
+
+  /* Status palette for the watchlist workflow. */
+  --status-new: oklch(0.5 0.13 240);
+  --status-investigating: oklch(0.63 0.13 65);
+  --status-resolved: oklch(0.55 0.11 165);
+  --status-dismissed: oklch(0.56 0.012 262);
+  --status-new-soft: color-mix(in oklch, var(--status-new) 11%, transparent);
+  --status-new-line: color-mix(in oklch, var(--status-new) 30%, transparent);
+  --status-investigating-soft: color-mix(in oklch, var(--status-investigating) 13%, transparent);
+  --status-investigating-line: color-mix(in oklch, var(--status-investigating) 32%, transparent);
+  --status-resolved-soft: color-mix(in oklch, var(--status-resolved) 12%, transparent);
+  --status-resolved-line: color-mix(in oklch, var(--status-resolved) 30%, transparent);
+  --status-dismissed-soft: color-mix(in oklch, var(--status-dismissed) 10%, transparent);
+  --status-dismissed-line: color-mix(in oklch, var(--status-dismissed) 26%, transparent);
+}
+
+.dark {
+  --background: oklch(0.166 0.01 262);
+  --foreground: oklch(0.965 0.003 95);
+  --card: oklch(0.205 0.011 262);
+  --card-foreground: oklch(0.965 0.003 95);
+  --popover: oklch(0.205 0.011 262);
+  --popover-foreground: oklch(0.965 0.003 95);
+  --primary: oklch(0.955 0.005 95);
+  --primary-foreground: oklch(0.19 0.012 262);
+  --secondary: oklch(0.271 0.012 262);
+  --secondary-foreground: oklch(0.965 0.003 95);
+  --muted: oklch(0.271 0.012 262);
+  --muted-foreground: oklch(0.69 0.012 262);
+  --accent: oklch(0.271 0.012 262);
+  --accent-foreground: oklch(0.965 0.003 95);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.72 0.09 205);
+  --chart-1: oklch(0.7 0.1 205);
+  --chart-2: oklch(0.78 0.14 75);
+  --chart-3: oklch(0.66 0.19 25);
+  --chart-4: oklch(0.68 0.09 240);
+  --chart-5: oklch(0.8 0.01 95);
+  --sidebar: oklch(0.19 0.011 262);
+  --sidebar-foreground: oklch(0.965 0.003 95);
+  --sidebar-primary: oklch(0.955 0.005 95);
+  --sidebar-primary-foreground: oklch(0.19 0.012 262);
+  --sidebar-accent: oklch(0.271 0.012 262);
+  --sidebar-accent-foreground: oklch(0.965 0.003 95);
+  --sidebar-border: oklch(1 0 0 / 9%);
+  --sidebar-ring: oklch(0.72 0.09 205);
+
+  --signal: oklch(0.72 0.1 205);
+  --signal-strong: oklch(0.78 0.1 205);
+  --signal-soft: color-mix(in oklch, var(--signal) 14%, transparent);
+  --signal-line: color-mix(in oklch, var(--signal) 34%, transparent);
+  --signal-text: oklch(0.78 0.1 205);
+
+  --sev-critical: oklch(0.66 0.2 26);
+  --sev-high: oklch(0.74 0.15 50);
+  --sev-medium: oklch(0.81 0.14 82);
+  --sev-low: oklch(0.7 0.1 235);
+  --sev-critical-soft: color-mix(in oklch, var(--sev-critical) 13%, transparent);
+  --sev-critical-line: color-mix(in oklch, var(--sev-critical) 34%, transparent);
+  --sev-high-soft: color-mix(in oklch, var(--sev-high) 13%, transparent);
+  --sev-high-line: color-mix(in oklch, var(--sev-high) 32%, transparent);
+  --sev-medium-soft: color-mix(in oklch, var(--sev-medium) 13%, transparent);
+  --sev-medium-line: color-mix(in oklch, var(--sev-medium) 32%, transparent);
+  --sev-low-soft: color-mix(in oklch, var(--sev-low) 13%, transparent);
+  --sev-low-line: color-mix(in oklch, var(--sev-low) 32%, transparent);
+
+  --status-new: oklch(0.68 0.13 240);
+  --status-investigating: oklch(0.76 0.14 78);
+  --status-resolved: oklch(0.7 0.13 165);
+  --status-dismissed: oklch(0.68 0.012 262);
+  --status-new-soft: color-mix(in oklch, var(--status-new) 14%, transparent);
+  --status-new-line: color-mix(in oklch, var(--status-new) 32%, transparent);
+  --status-investigating-soft: color-mix(in oklch, var(--status-investigating) 14%, transparent);
+  --status-investigating-line: color-mix(in oklch, var(--status-investigating) 32%, transparent);
+  --status-resolved-soft: color-mix(in oklch, var(--status-resolved) 14%, transparent);
+  --status-resolved-line: color-mix(in oklch, var(--status-resolved) 32%, transparent);
+  --status-dismissed-soft: color-mix(in oklch, var(--status-dismissed) 14%, transparent);
+  --status-dismissed-line: color-mix(in oklch, var(--status-dismissed) 30%, transparent);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      sans-serif;
+    font-feature-settings: "cv11" 1, "ss01" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  button:not([disabled]),
+  [role="button"]:not([disabled]) {
+    cursor: pointer;
+  }
+}
+
+/* Small helpers for the Modern theme. */
+@layer components {
+  /* Hairline "paper" card used across the product surface. */
+  .surface-card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: calc(var(--radius) + 4px);
+  }
+
+  /* Pulsing live dot for the monitoring surfaces. */
+  .pulse-dot {
+    position: relative;
+    display: inline-flex;
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 9999px;
+    background-color: var(--signal);
+  }
+  .pulse-dot::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 9999px;
+    border: 1px solid var(--signal-line);
+    animation: pulse-ring 2s ease-out infinite;
+  }
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.7);
+      opacity: 1;
+    }
+    80%,
+    100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot::after {
+      animation: none;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}

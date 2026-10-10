@@ -1,0 +1,17 @@
+{
+  "name": "Brand Sentinel — AI Social & App Threat Monitoring",
+  "short_name": "Brand Sentinel",
+  "description": "AI-powered social and app monitoring: detect fake profiles, impersonation, scam accounts and suspicious apps.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f7f4",
+  "theme_color": "#14161c",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
