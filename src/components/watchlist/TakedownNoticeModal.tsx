@@ -43,17 +43,35 @@ export function TakedownNoticeModal({
       ? "Meta Platforms Inc. Legal & IP Escalations (ip@meta.com)"
       : threat.platform === "x"
         ? "X Corp. Trust & Safety Legal Operations (copyright@x.com)"
-        : threat.platform === "telegram"
-          ? "Telegram FZ-LLC Trust & Safety Team (stopCA@telegram.org / abuse@telegram.org)"
-          : threat.platform === "googleplay"
-            ? "Google LLC Android Market Compliance & Legal Support (dmca-support@google.com)"
-            : "Apple Inc. App Store Legal & Trademark Enforcement (appmarketlegal@apple.com)";
+        : threat.platform === "facebook"
+          ? "Meta Platforms Inc. Commercial IP Operations (ip@fb.com)"
+          : threat.platform === "linkedin"
+            ? "LinkedIn Corporation Legal Trust & Safety (docketing@linkedin.com)"
+            : threat.platform === "telegram"
+              ? "Telegram FZ-LLC Trust & Safety Team (stopCA@telegram.org / abuse@telegram.org)"
+              : threat.platform === "googleplay"
+                ? "Google LLC Android Market Compliance & Legal Support (dmca-support@google.com)"
+                : "Apple Inc. App Store Legal & Trademark Enforcement (appmarketlegal@apple.com)";
 
   const legalJurisdiction =
-    "Digital Millennium Copyright Act (17 U.S.C. § 512), the Lanham Act (15 U.S.C. § 1051 et seq.), and International Anti-Cybersquatting Directives";
+    "Digital Millennium Copyright Act (17 U.S.C. § 512), the Lanham Trademark Act (15 U.S.C. § 1051 et seq.), the Anticybersquatting Consumer Protection Act (15 U.S.C. § 1125(d)), and International WIPO Trademark Directives";
+
+  const publisherMismatchSection =
+    threat.publisherMismatch && threat.publisherName
+      ? `\nCRITICAL PUBLISHER FRAUD & MISMATCH EVIDENCE:
+- Official Registered Developer: "${threat.officialPublisher || `${threat.brandName} Corporate Entity`}"
+- Unauthorized Rogue Publisher in Store Listing: "${threat.publisherName}"
+- Evidence Finding: Direct violation of App Store Developer Guidelines; deceptive distribution under counterfeit developer signature.\n`
+      : "";
+
+  const homoglyphSection = threat.homoglyphSubstitution
+    ? `\nTYPOSQUATTING & HOMOGLYPH VECTOR EVIDENCE:
+- Analysis: ${threat.homoglyphSubstitution}
+- Malicious Intent: Deceptive homoglyph designed to visually fool consumers and evade text search safety filters.\n`
+    : "";
 
   const noticeText = `================================================================================
-FORMAL NOTICE OF TRADEMARK INFRINGEMENT & DMCA CEASE AND DESIST
+FORMAL NOTICE OF TRADEMARK INFRINGEMENT, PUBLISHER FRAUD & DMCA CEASE AND DESIST
 Generated via Brand Sentinel Digital Risk Protection Platform
 Date: ${dateStr}
 Reference: BS-CASE-${threat._id.slice(-8).toUpperCase()}
@@ -75,12 +93,12 @@ This notice constitutes formal notification under the ${legalJurisdiction}, rega
 
 INFRINGING TARGET DETAILS:
 - Platform / Channel: ${threat.platform.toUpperCase()}
-- Impersonating Handle / Identifier: ${threat.handle}
-- Display Name: ${threat.displayName}
+- Impersonating Handle / Package ID: ${threat.handle}
+- Store Display Name: ${threat.displayName}
 - Threat Classification: ${threat.threatType.toUpperCase()}
 - AI Risk Index: ${threat.riskScore}/100 (${threat.severity.toUpperCase()} RISK)
 - First Discovered By Sentinel Crawlers: ${new Date(threat.detectedAt).toUTCString()}
-
+${publisherMismatchSection}${homoglyphSection}
 EVIDENCE & FORENSIC LOGS:
 ${threat.signals.map((sig, i) => `  ${i + 1}. [FORENSIC MATCH] ${sig}`).join("\n")}
 

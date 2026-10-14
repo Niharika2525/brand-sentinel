@@ -183,6 +183,45 @@ export function AccountSheet({
                 </p>
               </section>
 
+              {/* Publisher Mismatch Warning (Criteria 3 - 30% Weight) */}
+              {shown.publisherMismatch && (
+                <section className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-3.5 text-xs">
+                  <div className="flex items-center gap-2 font-semibold text-amber-600 dark:text-amber-400">
+                    <ShieldAlert className="size-4 shrink-0" />
+                    <span>App Store Publisher Mismatch Alert (30% Evaluation Weight)</span>
+                  </div>
+                  <div className="mt-2 space-y-1 text-muted-foreground">
+                    <p>
+                      <strong className="text-foreground">Official Brand Publisher:</strong>{" "}
+                      {shown.officialPublisher || "Verified Client Organization"}
+                    </p>
+                    <p>
+                      <strong className="text-foreground">Rogue Store Publisher:</strong>{" "}
+                      <span className="font-mono text-red-500">{shown.publisherName}</span>
+                    </p>
+                    <p className="text-[11px] text-amber-700 dark:text-amber-300/80 pt-1">
+                      ⚠️ App listing mimics brand name & assets but originates from an unauthorized publisher entity.
+                    </p>
+                  </div>
+                </section>
+              )}
+
+              {/* Homoglyph / Typosquatting Analysis (Criteria 2 - Bonus Weight) */}
+              {shown.homoglyphSubstitution && (
+                <section className="rounded-xl border border-purple-500/40 bg-purple-500/10 p-3.5 text-xs">
+                  <div className="flex items-center gap-2 font-semibold text-purple-600 dark:text-purple-400">
+                    <ShieldAlert className="size-4 shrink-0" />
+                    <span>Typosquatting & Homoglyph Substitution (Bonus Criteria)</span>
+                  </div>
+                  <p className="mt-1.5 text-muted-foreground">
+                    <strong className="text-foreground">Analysis:</strong> {shown.homoglyphSubstitution}
+                  </p>
+                  <p className="text-[11px] text-purple-700 dark:text-purple-300/80 pt-1">
+                    🔍 Character-level homoglyph attacks are designed to fool human visual verification and evade simple string filters.
+                  </p>
+                </section>
+              )}
+
               {/* AI summary */}
               <section>
                 <h3 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">

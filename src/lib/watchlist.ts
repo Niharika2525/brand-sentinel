@@ -8,6 +8,7 @@ export type Platform =
   | "tiktok"
   | "youtube"
   | "telegram"
+  | "linkedin"
   | "googleplay"
   | "appstore";
 
@@ -24,13 +25,14 @@ export type Status = "new" | "investigating" | "resolved" | "dismissed";
 
 export const PLATFORM_LABELS: Record<Platform, string> = {
   instagram: "Instagram",
-  x: "X",
+  x: "X (Twitter)",
   facebook: "Facebook",
   tiktok: "TikTok",
   youtube: "YouTube",
   telegram: "Telegram",
-  googleplay: "Google Play",
-  appstore: "App Store",
+  linkedin: "LinkedIn",
+  googleplay: "Google Play Store",
+  appstore: "Apple App Store",
 };
 
 export const THREAT_LABELS: Record<ThreatType, string> = {

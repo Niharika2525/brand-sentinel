@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AccountSheet } from "@/components/watchlist/AccountSheet";
+import { BrandProfileManager } from "@/components/watchlist/BrandProfileManager";
 import { BrandScanBanner } from "@/components/watchlist/BrandScanBanner";
 import { StatTiles } from "@/components/watchlist/StatTiles";
 import { TakedownNoticeModal } from "@/components/watchlist/TakedownNoticeModal";
@@ -36,6 +37,8 @@ import {
   Search,
   Sparkles,
   ShieldAlert,
+  Building2,
+  ShieldCheck,
   X,
   PlusCircle,
 } from "lucide-react";
@@ -58,11 +61,18 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const accounts = useQuery(api.flaggedAccounts.list);
+  const brandProfiles = useQuery(api.brandProfiles.list);
   const ensureSeed = useMutation(api.flaggedAccounts.ensureSeed);
+  const ensureDefaultProfiles = useMutation(
+    api.brandProfiles.ensureDefaultProfiles,
+  );
   const setStatus = useMutation(api.flaggedAccounts.setStatus);
   const runBrandScanMutation = useMutation(api.scanner.runBrandScanMutation);
   const updateThreatStatus = useMutation(api.scanner.updateThreatStatus);
   const analyzeTestAccount = useMutation(api.flaggedAccounts.analyzeTestAccount);
+
+  // Active view tab state (Threats vs Brand Profiles)
+  const [activeTab, setActiveTab] = useState<"threats" | "profiles">("threats");
 
   // Scanner state
   const [isScanning, setIsScanning] = useState(false);
@@ -88,7 +98,7 @@ export default function Dashboard() {
   const [newEvidence, setNewEvidence] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  // Populate the demo watchlist the first time a signed-in user lands here.
+  // Populate the demo watchlist and brand profiles the first time a signed-in user lands here.
   const seedAttempted = useRef(false);
   useEffect(() => {
     if (seedAttempted.current) return;
@@ -96,7 +106,10 @@ export default function Dashboard() {
     ensureSeed({}).catch((error) => {
       console.error("Watchlist seed failed:", error);
     });
-  }, [ensureSeed]);
+    ensureDefaultProfiles({}).catch((error) => {
+      console.error("Brand profile seed failed:", error);
+    });
+  }, [ensureSeed, ensureDefaultProfiles]);
 
   /* -------------------------------------------------------------- */
   /* Filters                                                          */
@@ -190,7 +203,7 @@ export default function Dashboard() {
       setBrand(targetBrand);
 
       toast.success(`AI Scan Complete: ${targetBrand}`, {
-        description: `Discovered and indexed ${result.savedCount} high-risk threat nodes across selected channels.`,
+        description: `Discovered ${result.savedCount} threat nodes. Whitelist guard strictly verified & excluded ${result.whitelistedExcluded?.length || 0} legitimate assets.`,
       });
     } catch (error) {
       console.error("AI Brand Scan error:", error);
@@ -332,7 +345,42 @@ export default function Dashboard() {
             <Loader2 className="size-6 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <div className="mt-6 flex flex-col gap-6 sm:mt-8">
+          <Tabs
+            value={activeTab}
+            onValueChange={(val) => setActiveTab(val as "threats" | "profiles")}
+            className="mt-6 sm:mt-8 w-full"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-border/70 pb-3">
+              <TabsList className="bg-muted/70 p-1">
+                <TabsTrigger
+                  value="threats"
+                  className="gap-2 text-xs font-semibold cursor-pointer data-[state=active]:bg-background"
+                >
+                  <Radar className="size-3.5 text-[var(--signal-text)]" />
+                  <span>Threat Scanner & Watchlist</span>
+                  <span className="rounded-full bg-muted px-1.5 py-0.2 text-[10px] font-mono text-muted-foreground">
+                    {accounts.length}
+                  </span>
+                </TabsTrigger>
+                <TabsTrigger
+                  value="profiles"
+                  className="gap-2 text-xs font-semibold cursor-pointer data-[state=active]:bg-background"
+                >
+                  <Building2 className="size-3.5 text-emerald-500" />
+                  <span>Brand Profiles & Whitelist</span>
+                  <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.2 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    15% Criteria
+                  </span>
+                </TabsTrigger>
+              </TabsList>
+
+              <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                <ShieldCheck className="size-3.5 text-emerald-500" />
+                <span>Legitimate brand assets strictly whitelisted</span>
+              </span>
+            </div>
+
+            <TabsContent value="threats" className="mt-6 flex flex-col gap-6">
             {/* Core Requirement 2: High-Impact AI Brand Scanner Component */}
             <BrandScanBanner
               onRunScan={handleRunAIBrandScan}
@@ -646,7 +694,19 @@ export default function Dashboard() {
                 onGenerateTakedown={(entry) => setTakedownTarget(entry)}
               />
             )}
-          </div>
+            </TabsContent>
+
+            {/* Core Requirement 1: Brand Profile & Legitimate Asset Definition View */}
+            <TabsContent value="profiles" className="mt-6">
+              <BrandProfileManager
+                onSelectBrandForScan={(selectedBrand) => {
+                  setActiveTab("threats");
+                  setBrand(selectedBrand);
+                  toast.info(`Configured threat scanner for ${selectedBrand}`);
+                }}
+              />
+            </TabsContent>
+          </Tabs>
         )}
       </div>
 

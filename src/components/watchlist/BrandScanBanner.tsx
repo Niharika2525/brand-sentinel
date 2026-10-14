@@ -45,31 +45,44 @@ const CHANNELS: Array<{
     icon: Radio,
   },
   {
+    id: "facebook",
+    label: "Facebook",
+    sub: "Rogue Pages & Phishing Ads",
+    icon: Globe,
+  },
+  {
     id: "telegram",
     label: "Telegram",
     sub: "Black-market & VIP Scams",
     icon: Send,
   },
   {
+    id: "linkedin",
+    label: "LinkedIn",
+    sub: "Recruiter & Executive Fraud",
+    icon: Globe,
+  },
+  {
     id: "play_store",
     label: "Google Play Store",
-    sub: "Trojan APK Signatures",
+    sub: "Publisher Mismatches & APKs",
     icon: Smartphone,
   },
   {
     id: "app_store",
     label: "Apple App Store",
-    sub: "Trademark Metadata Infringement",
+    sub: "Metadata & Rogue Publisher Clones",
     icon: Layers,
   },
 ];
 
 const SCAN_STAGES = [
-  { step: 1, label: "Crawling OSINT social graphs & rogue accounts..." },
-  { step: 2, label: "Analyzing typosquatting vectors & homoglyph substitutions..." },
-  { step: 3, label: "Evaluating visual brand similarity & avatar pixel matches..." },
-  { step: 4, label: "Scanning app store APK signatures & C2 server endpoints..." },
-  { step: 5, label: "Compiling forensic risk scores & synthesizing evidence..." },
+  { step: 1, label: "Querying registered brand assets & active whitelist..." },
+  { step: 2, label: "Crawling OSINT graphs across Instagram, X, Facebook, LinkedIn & Telegram..." },
+  { step: 3, label: "Analyzing typosquatting vectors, homoglyphs & character substitutions..." },
+  { step: 4, label: "Verifying Google Play & App Store manifests for Publisher Mismatch..." },
+  { step: 5, label: "Cross-referencing official assets to strictly exclude legitimate properties..." },
+  { step: 6, label: "Synthesizing forensic evidence & assembling DMCA takedown dossier..." },
 ];
 
 const PRESET_BRANDS = ["Zomato", "PhonePe", "Nike", "Northline Bank", "Binance"];
@@ -218,16 +231,21 @@ export function BrandScanBanner({
               <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Intelligence Discovery Channels ({selectedChannels.length}/{CHANNELS.length})
               </span>
-              <button
-                type="button"
-                onClick={handleSelectAllChannels}
-                className="text-[11px] font-medium text-[var(--signal-text)] hover:underline cursor-pointer"
-              >
-                {selectedChannels.length === CHANNELS.length ? "Deselect All" : "Select All Channels"}
-              </button>
+              <div className="flex items-center gap-3">
+                <span className="hidden sm:inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
+                  <CheckCircle2 className="size-2.5" /> Whitelist Guard Active (Excludes Official Assets)
+                </span>
+                <button
+                  type="button"
+                  onClick={handleSelectAllChannels}
+                  className="text-[11px] font-medium text-[var(--signal-text)] hover:underline cursor-pointer"
+                >
+                  {selectedChannels.length === CHANNELS.length ? "Deselect All" : "Select All Channels"}
+                </button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
               {CHANNELS.map((channel) => {
                 const isSelected = selectedChannels.includes(channel.id);
                 const Icon = channel.icon;

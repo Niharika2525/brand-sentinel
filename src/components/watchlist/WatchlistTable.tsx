@@ -96,9 +96,21 @@ export function WatchlistTable({
                     <div className="flex min-w-0 items-center gap-3">
                       <AccountTile name={entry.displayName} />
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-foreground">
-                          {entry.displayName}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="truncate text-sm font-semibold text-foreground">
+                            {entry.displayName}
+                          </p>
+                          {entry.publisherMismatch && (
+                            <span className="shrink-0 rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.2 text-[10px] font-semibold text-amber-600 dark:text-amber-400">
+                              Publisher Mismatch
+                            </span>
+                          )}
+                          {entry.homoglyphSubstitution && (
+                            <span className="shrink-0 rounded border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.2 text-[10px] font-semibold text-purple-600 dark:text-purple-400">
+                              Homoglyph
+                            </span>
+                          )}
+                        </div>
                         <p className="truncate text-xs font-mono text-muted-foreground">
                           {entry.handle}
                           <span className="hidden lg:inline font-sans">
@@ -106,6 +118,11 @@ export function WatchlistTable({
                             {PLATFORM_LABELS[entry.platform]}
                           </span>
                         </p>
+                        {entry.publisherName && (
+                          <p className="truncate text-[10px] text-amber-600/90 dark:text-amber-400/90">
+                            Rogue Dev: {entry.publisherName} (Official: {entry.officialPublisher || "Verified Brand Entity"})
+                          </p>
+                        )}
                       </div>
                     </div>
                   </TableCell>
@@ -228,12 +245,29 @@ export function WatchlistTable({
             >
               <AccountTile name={entry.displayName} />
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold">
-                  {entry.displayName}
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-sm font-semibold">
+                    {entry.displayName}
+                  </p>
+                  {entry.publisherMismatch && (
+                    <span className="shrink-0 rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.2 text-[9px] font-semibold text-amber-600 dark:text-amber-400">
+                      Publisher Mismatch
+                    </span>
+                  )}
+                  {entry.homoglyphSubstitution && (
+                    <span className="shrink-0 rounded border border-purple-500/30 bg-purple-500/10 px-1.5 py-0.2 text-[9px] font-semibold text-purple-600 dark:text-purple-400">
+                      Homoglyph
+                    </span>
+                  )}
+                </div>
                 <p className="truncate text-xs font-mono text-muted-foreground">
                   {entry.handle} · {PLATFORM_LABELS[entry.platform]}
                 </p>
+                {entry.publisherName && (
+                  <p className="truncate text-[10px] text-amber-600 dark:text-amber-400">
+                    Rogue: {entry.publisherName}
+                  </p>
+                )}
               </div>
             </div>
 

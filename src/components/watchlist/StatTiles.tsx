@@ -90,33 +90,43 @@ export function StatTiles({ entries }: { entries: FlaggedAccount[] }) {
       ? `$${(estimatedTrustLossUSD / 1_000_000).toFixed(2)}M`
       : `$${(estimatedTrustLossUSD / 1_000).toFixed(0)}K`;
 
+  const rogueAppClones = entries.filter(
+    (entry) =>
+      isOpen(entry.status) &&
+      (entry.publisherMismatch || entry.threatType === "suspicious_app"),
+  ).length;
+
+  const homoglyphThreats = entries.filter(
+    (entry) => Boolean(entry.homoglyphSubstitution) && isOpen(entry.status),
+  ).length;
+
   return (
     <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
       <StatTile
         label="Active Phishing Nodes"
         value={activePhishingNodes}
-        note={`High/Critical vectors active across ${brands} brand${brands === 1 ? "" : "s"}`}
+        note={`${homoglyphThreats} homoglyph vectors · ${brands} brand${brands === 1 ? "" : "s"}`}
         tone="critical"
         icon={ShieldAlert}
       />
       <StatTile
         label="Estimated Trust Exposure"
         value={formattedLoss}
-        note="Calculated brand & customer damage potential"
+        note="Calculated brand & customer fraud damage potential"
         tone="signal"
         icon={DollarSign}
       />
       <StatTile
-        label="Critical Open Takedowns"
-        value={criticalOpen}
-        note="Requires expedited DMCA enforcement"
+        label="App Store Rogue Clones"
+        value={rogueAppClones}
+        note="Publisher mismatch & trojan APK listings"
         tone="investigating"
         icon={Activity}
       />
       <StatTile
         label="Total Monitored Threats"
         value={entries.length}
-        note={`${newCount} unreviewed · ${entries.filter((e) => e.status === "resolved").length} neutralized`}
+        note={`${newCount} new · ${entries.filter((e) => e.status === "resolved").length} neutralized`}
         tone="success"
         icon={CheckCircle2}
       />
